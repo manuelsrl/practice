@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 // Function to handle GET request for signup
 export const signupGet = (req, res) => {
@@ -11,15 +12,19 @@ export const signupPost = async (req, res) => {
   if (!email || !password)
     return res.status(400).json({ message: "Email & password are required." });
 
-  // Duplicate on DB
-  const duplicate = User.findOne({ email }) || null;
-  if (duplicate !== null) {
+  // Duplicate email in DB
+  const duplicate = await User.findOne({ email });
+  if (duplicate) {
     return res.status(409).json({ message: "Email already registered" });
   }
 
   try {
-    const user = await User.create({ email, password });
-    res.status(201).json(user);
+    // Password encryption
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Store the new user with email and hashed password
+    const user = await User.create({ email, password: hashedPassword });
+    res.status(201).json({ message: "User created successfully", user });
   } catch (err) {
     console.log(err);
     res.status(500).send("User not created");
