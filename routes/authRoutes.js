@@ -1,11 +1,10 @@
 import { Router } from "express";
+import { signupGet, signupPost } from "../controllers/registerControllers.js";
 import {
-  signupGet,
-  signupPost,
   loginGet,
   loginPost,
   logoutGet,
-} from "../controllers/authControllers.js";
+} from "../controllers/loginControllers.js";
 
 const router = Router();
 
