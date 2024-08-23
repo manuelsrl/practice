@@ -9,8 +9,12 @@ export const signupGet = (req, res) => {
 // Function to handle POST request for signup
 export const signupPost = async (req, res) => {
   const { email, password } = req.body;
+
+  // No email or password
   if (!email || !password)
-    return res.status(400).json({ message: "Email & password are required." });
+    return res
+      .status(400)
+      .json({ message: "Email & password are required for registration." });
 
   // Duplicate email in DB
   const duplicate = await User.findOne({ email });
@@ -23,8 +27,14 @@ export const signupPost = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Store the new user with email and hashed password
-    const user = await User.create({ email, password: hashedPassword });
-    res.status(201).json({ message: "User created successfully", user });
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+    });
+    await newUser.save();
+    return res
+      .status(201)
+      .json({ message: "User created successfully", newUser });
   } catch (err) {
     console.log(err);
     res.status(500).send("User not created");

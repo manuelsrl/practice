@@ -20,17 +20,13 @@ app.use(express.json());
 // Connection to MongoDB
 connectDB();
 
-// Router
-//  - Auth routes
-//     - /signup GET & POST
-//     - /login GET & POST
-//     - /logout GET
-
+// Home page
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-app.use("/api", authRouter);
+// authRouter => /signup GET & POST, /login GET & POST /logout GET
+app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
