@@ -1,5 +1,5 @@
 const whitelist = [
-  // dominio "https://www.website.com"
+  // domain "https://www.website.com"
   "http://127.0.0.1:3000",
 ];
 
