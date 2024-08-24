@@ -17,9 +17,6 @@ app.use(express.static("public"));
 //  - JSON middleware
 app.use(express.json());
 
-// Connection to MongoDB
-connectDB();
-
 // Home page
 app.get("/", (req, res) => {
   res.send("Hello world");
@@ -29,5 +26,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
+  // Connection to MongoDB
+  connectDB();
   console.log(`Server listening on port ${PORT}...`);
 });
