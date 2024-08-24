@@ -4,6 +4,7 @@ import corsOptions from "./config/corsOptions.js";
 import { router as authRouter } from "./routes/authRoutes.js";
 import connectDB from "./config/connectDB.js";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -17,6 +18,8 @@ app.use(express.static("public"));
 app.use(express.json());
 //  - Morgan
 app.use(morgan("tiny"));
+// Cookie parser
+app.use(cookieParser());
 
 app.disable("x-powered-by");
 
