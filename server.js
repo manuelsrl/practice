@@ -2,7 +2,9 @@ import express from "express";
 import cors from "cors";
 import corsOptions from "./config/corsOptions.js";
 import { router as authRouter } from "./routes/authRoutes.js";
+import { router as protectedRouter } from "./routes/protectedRoutes.js";
 import connectDB from "./config/connectDB.js";
+import { verifyToken } from "./middlewares/verifyToken.js";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
@@ -18,7 +20,7 @@ app.use(express.static("public"));
 app.use(express.json());
 //  - Morgan
 app.use(morgan("tiny"));
-// Cookie parser
+//  - Cookie parser
 app.use(cookieParser());
 
 app.disable("x-powered-by");
@@ -28,8 +30,11 @@ app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-// authRouter => /signup GET & POST, /login GET & POST /logout GET
+// authRouter => /signup GET & POST, /login GET & POST, /logout GET
 app.use("/auth", authRouter);
+
+// protectedRouter => /protected GET, /protected/user
+app.use("/protected", verifyToken, protectedRouter);
 
 connectDB().then(() => {
   try {

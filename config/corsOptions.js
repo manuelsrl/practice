@@ -1,5 +1,6 @@
 const whitelist = [
   // domain "https://www.website.com"
+  // http:217.0.0.1:5173 for Vite project
   "http://127.0.0.1:3000",
 ];
 
