@@ -19,7 +19,7 @@ app.use(express.static("public"));
 //  - JSON middleware
 app.use(express.json());
 //  - Morgan
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 //  - Cookie parser
 app.use(cookieParser());
 

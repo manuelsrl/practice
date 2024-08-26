@@ -29,6 +29,7 @@ export const loginPost = async (req, res) => {
     return res.status(401).json({ message: "Incorrect password" });
   }
 
+  // JWT sign and cookie storage
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
@@ -37,7 +38,7 @@ export const loginPost = async (req, res) => {
     .cookie("access_token", token, {
       httpOnly: true,
       sameSite: "strict",
-      maxAge: 1000 * 60 * 60,
+      maxAge: 1000 * 60 * 60, // 1h
     })
     .status(200)
     .send(`Logged as ${user.email} and with token: ${token}`);
